@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velvet Roast Café | منيو القهوة والحلويات والطلب المباشر</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- الهيدر وشريط البحث -->
+  <header class="cafe-header">
+    <div class="container header-inner">
+      <div class="cafe-brand">
+        <div class="brand-logo">☕</div>
+        <div>
+          <h1>Velvet Roast Café</h1>
+          <span class="status-badge">● نستقبل طلباتكم الآن</span>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="ابحث عن قهوتك أو حلاك المفضل...">
+      </div>
+    </div>
+  </header>
+
+  <!-- بانر ترحيبي -->
+  <section class="hero-banner">
+    <div class="container banner-card">
+      <div class="banner-text">
+        <span class="promo-tag">✨ قهوة مختصة & حلويات طازجة</span>
+        <h2>اطلب قهوتك وحلاك مباشرة عبر واتساب</h2>
+        <p>اختر مشروبك الساخن أو المثلج مع الحلى المفضل لديك، وأرسل طلبك للطاولة أو السفري بلمسة واحدة.</p>
+      </div>
+      <div class="banner-info">
+        <div>☕ تحضير طازج: 10 - 15 دقيقة</div>
+        <div>🍰 حلويات يومية من الفرن</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- شريط تصنيفات الكافيه -->
+  <nav class="categories-bar">
+    <div class="container categories-list" id="categoryButtons">
+      <button class="cat-btn active" data-category="all">✨ الكل</button>
+      <button class="cat-btn" data-category="hot">☕ قهوة ساخنة</button>
+      <button class="cat-btn" data-category="iced">🧊 مشروبات باردة</button>
+      <button class="cat-btn" data-category="desserts">🍰 حلويات وكيك</button>
+      <button class="cat-btn" data-category="juices">🍹 عصائر وموهيتو</button>
+    </div>
+  </nav>
+
+  <!-- شبكة عرض الأصناف -->
+  <main class="container menu-section">
+    <div class="section-header">
+      <h2 id="currentCategoryTitle">قائمة الكافيه الكاملة</h2>
+      <span id="itemsCount" class="items-count">0 صنف</span>
+    </div>
+
+    <div class="menu-grid" id="menuGrid">
+      <!-- يتم توليد البطاقات تلقائياً عبر js/menu.js -->
+    </div>
+  </main>
+
+  <!-- زر السلة العائم -->
+  <button class="floating-cart-btn" id="openCartBtn" style="display: none;">
+    <span class="cart-badge" id="cartTotalQty">0</span>
+    <span>عرض سلة الطلبات</span>
+    <strong id="cartTotalAmount">0 ريال</strong>
+  </button>
+
+  <!-- درج السلة وإتمام الطلب عبر واتساب -->
+  <div class="cart-modal-overlay" id="cartOverlay">
+    <div class="cart-drawer">
+      <div class="drawer-header">
+        <h3>🛍️ سلة طلباتك</h3>
+        <button class="close-drawer" id="closeCartBtn">✕</button>
+      </div>
+
+      <div class="drawer-body" id="cartItemsList">
+        <!-- عناصر السلة -->
+      </div>
+
+      <div class="drawer-footer">
+        <div class="order-form">
+          <div class="form-group">
+            <label>طريقة الاستلام:</label>
+            <select id="orderType">
+              <option value="داخل الكافيه (طاولة)">🪑 داخل الكافيه (طاولة)</option>
+              <option value="استلام سفري (Takeaway)">🥤 استلام سفري (Takeaway)</option>
+              <option value="توصيل للمنزل">🛵 توصيل للمنزل</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="customerName" placeholder="الاسم الكريم">
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="customerLocation" placeholder="رقم الطاولة أو عنوان التوصيل">
+          </div>
+
+          <div class="form-group">
+            <input type="text" id="orderNotes" placeholder="تفضيلات التحضير (سكر وسط، حليب قليل الدسم، بدون ثلج...)">
+          </div>
+        </div>
+
+        <div class="total-row">
+          <span>الإجمالي النهائي:</span>
+          <strong id="drawerTotalPrice">0 ريال</strong>
+        </div>
+
+        <button class="whatsapp-submit-btn" id="sendWhatsappBtn">
+          <span>📲 إرسال الطلب عبر واتساب الآن</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- الفوتر -->
+  <footer class="cafe-footer">
+    <div class="container">
+      <p>تم التصميم والتطوير بواسطة <strong>Ammar Mofleh</strong> | أنظمة المنيو الإلكتروني للكافيهات والمطاعم</p>
+    </div>
+  </footer>
+
+  <script src="js/menu.js"></script>
+  <script src="js/whatsapp.js"></script>
+</body>
+</html>
