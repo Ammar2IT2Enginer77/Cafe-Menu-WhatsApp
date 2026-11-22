@@ -169,18 +169,15 @@ function renderMenu() {
 function buildStageVisual(item) {
   if (item.category === "hot") {
     return `
-      <div class="latte-cup-wrapper">
-        <div class="cup-inner">
-          <div class="coffee-fill-wave"></div>
-          <svg class="latte-heart-art" viewBox="0 0 100 100">
-            <path d="M50 82 C20 62, 10 40, 26 25 C37 15, 48 25, 50 34 C52 25, 63 15, 74 25 C90 40, 80 62, 50 82 Z"
-                  fill="#fdf8f2" opacity="0.92"/>
-            <path d="M50 70 C30 56, 23 42, 34 32 C41 26, 48 32, 50 38 C52 32, 59 26, 66 32 C77 42, 70 56, 50 70 Z"
-                  fill="#c67d43" opacity="0.65"/>
-          </svg>
+      <div class="hot-coffee-showcase">
+        <div class="hot-steam">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="product-orb-showcase" style="--orb-glow: #d99148;">
+          <img src="${item.image}" alt="${item.name}">
         </div>
       </div>
-      <div class="stage-caption">☕ يمتلئ الكوب طازجاً برسمة اللاتيه آرت</div>
+      <div class="stage-caption">☕ ${item.name} — يُحضّر طازجاً الآن</div>
     `;
   }
 
