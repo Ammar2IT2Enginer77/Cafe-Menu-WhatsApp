@@ -3,19 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Velvet Roast Café | منيو القهوة والحلويات والطلب المباشر</title>
+  <title>Velvet Roast Café | تجربة القهوة المختصة والطلب التفاعلي</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- الهيدر وشريط البحث -->
+  <!-- شريط تقدم التمرير -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- الهيدر الزجاجي -->
   <header class="cafe-header">
     <div class="container header-inner">
       <div class="cafe-brand">
         <div class="brand-logo">☕</div>
         <div>
           <h1>Velvet Roast Café</h1>
-          <span class="status-badge">● نستقبل طلباتكم الآن</span>
+          <span class="status-badge">● تحضير طازج مباشر</span>
         </div>
       </div>
 
@@ -25,23 +28,32 @@
     </div>
   </header>
 
-  <!-- بانر ترحيبي -->
-  <section class="hero-banner">
-    <div class="container banner-card">
-      <div class="banner-text">
-        <span class="promo-tag">✨ قهوة مختصة & حلويات طازجة</span>
-        <h2>اطلب قهوتك وحلاك مباشرة عبر واتساب</h2>
-        <p>اختر مشروبك الساخن أو المثلج مع الحلى المفضل لديك، وأرسل طلبك للطاولة أو السفري بلمسة واحدة.</p>
-      </div>
-      <div class="banner-info">
-        <div>☕ تحضير طازج: 10 - 15 دقيقة</div>
-        <div>🍰 حلويات يومية من الفرن</div>
+  <!-- الهيرو السينمائي بخلفية تحضير القهوة الحية -->
+  <section class="cinematic-hero">
+    <video class="hero-video-bg" autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1600&q=80">
+      <source src="https://assets.mixkit.co/videos/preview/mixkit-pouring-milk-into-a-cup-of-coffee-42934-large.mp4" type="video/mp4">
+    </video>
+    <div class="hero-cinematic-overlay"></div>
+    <div class="steam-layer">
+      <span></span><span></span><span></span>
+    </div>
+
+    <div class="container hero-cinematic-content">
+      <span class="promo-tag">✨ فن القهوة المختصة • تجربة تفاعلية</span>
+      <h2>تذوق اللحظة.. من أول قطرة إسبريسو حتى آخر رشفة</h2>
+      <p>اضغط على أي مشروب أو حلى لمشاهدته عن قرب، خصص حجم كوبك ونكهتك، واحصل على فاتورتك الفورية عبر واتساب.</p>
+      <div class="hero-actions">
+        <a href="#menuCatalog" class="hero-primary-btn">☕ استكشف القائمة التفاعلية</a>
+        <div class="hero-live-stats">
+          <span>🔥 تحميص يومي</span>
+          <span>⚡ تجهيز خلال 10 دقائق</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- شريط تصنيفات الكافيه -->
-  <nav class="categories-bar">
+  <!-- شريط التصنيفات -->
+  <nav class="categories-bar" id="menuCatalog">
     <div class="container categories-list" id="categoryButtons">
       <button class="cat-btn active" data-category="all">✨ الكل</button>
       <button class="cat-btn" data-category="hot">☕ قهوة ساخنة</button>
@@ -51,80 +63,162 @@
     </div>
   </nav>
 
-  <!-- شبكة عرض الأصناف -->
+  <!-- شبكة المنتجات العائمة -->
   <main class="container menu-section">
     <div class="section-header">
-      <h2 id="currentCategoryTitle">قائمة الكافيه الكاملة</h2>
+      <div>
+        <h2 id="currentCategoryTitle">قائمة الكافيه الكاملة</h2>
+        <small class="hint-sub">اضغط على أي صنف لمعاينته وتخصيص الحجم والإضافات</small>
+      </div>
       <span id="itemsCount" class="items-count">0 صنف</span>
     </div>
 
     <div class="menu-grid" id="menuGrid">
-      <!-- يتم توليد البطاقات تلقائياً عبر js/menu.js -->
+      <!-- البطاقات تتولد عبر js/menu.js -->
     </div>
   </main>
+
+  <!-- نافذة المعاينة السينمائية للمنتج (Interactive Product Stage) -->
+  <div class="stage-overlay" id="productStage">
+    <div class="stage-modal">
+      <button class="stage-close" id="closeStageBtn">✕</button>
+
+      <div class="stage-visual" id="stageVisual">
+        <!-- الرسم التفاعلي المتحرك (امتلاء الكوب / الثلج / صوص الشوكولاتة) يتولد هنا -->
+      </div>
+
+      <div class="stage-details">
+        <span class="stage-cat-tag" id="stageCategory">قهوة ساخنة</span>
+        <h3 id="stageTitle">اسم الصنف</h3>
+        <p id="stageDesc">وصف الصنف</p>
+
+        <!-- اختيار الحجم -->
+        <div class="stage-option-group" id="sizeOptionGroup">
+          <label>اختر الحجم:</label>
+          <div class="size-pills" id="sizePills">
+            <button type="button" class="size-pill active" data-extra="0" data-label="صغير (S)">صغير (S)</button>
+            <button type="button" class="size-pill" data-extra="300" data-label="وسط (M)">وسط (M) +300</button>
+            <button type="button" class="size-pill" data-extra="600" data-label="كبير (L)">كبير (L) +600</button>
+          </div>
+        </div>
+
+        <!-- اختيار الإضافة -->
+        <div class="stage-option-group">
+          <label id="addonLabel">تفضيل التحضير:</label>
+          <div class="addon-pills" id="addonPills">
+            <!-- تتغير تلقائياً حسب نوع الصنف -->
+          </div>
+        </div>
+
+        <div class="stage-footer">
+          <div class="stage-price-box">
+            <span>السعر الإجمالي</span>
+            <strong id="stageFinalPrice">0 ريال</strong>
+          </div>
+          <button class="stage-add-btn" id="confirmStageAddBtn">
+            <span>+ أضف إلى الفاتورة</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- زر السلة العائم -->
   <button class="floating-cart-btn" id="openCartBtn" style="display: none;">
     <span class="cart-badge" id="cartTotalQty">0</span>
-    <span>عرض سلة الطلبات</span>
+    <span>🧾 معاينة فاتورة الطلب</span>
     <strong id="cartTotalAmount">0 ريال</strong>
   </button>
 
-  <!-- درج السلة وإتمام الطلب عبر واتساب -->
+  <!-- درج الفاتورة الفاخرة (Luxury Receipt Drawer) -->
   <div class="cart-modal-overlay" id="cartOverlay">
     <div class="cart-drawer">
       <div class="drawer-header">
-        <h3>🛍️ سلة طلباتك</h3>
+        <h3>🧾 فاتورة طلبك الإلكترونية</h3>
         <button class="close-drawer" id="closeCartBtn">✕</button>
       </div>
 
-      <div class="drawer-body" id="cartItemsList">
-        <!-- عناصر السلة -->
-      </div>
+      <div class="drawer-body">
+        <!-- تصميم الإيصال الحراري الفاخر بحواف مسننة -->
+        <div class="luxury-receipt" id="luxuryReceipt">
+          <div class="receipt-top-edge"></div>
 
-      <div class="drawer-footer">
-        <div class="order-form">
+          <div class="receipt-brand-head">
+            <div class="rcp-logo">☕</div>
+            <h4>VELVET ROAST CAFÉ</h4>
+            <p>فاتورة طلب رقم <strong id="receiptOrderNum">#VR-408</strong></p>
+            <span class="rcp-date" id="receiptDateTime"></span>
+          </div>
+
+          <div class="receipt-dashed-line"></div>
+
+          <!-- قائمة الأصناف داخل الفاتورة -->
+          <div class="receipt-items-container" id="cartItemsList">
+            <!-- عناصر الفاتورة -->
+          </div>
+
+          <div class="receipt-dashed-line"></div>
+
+          <div class="receipt-summary">
+            <div class="rcp-row">
+              <span>عدد الأصناف:</span>
+              <strong id="rcpTotalItems">0</strong>
+            </div>
+            <div class="rcp-row">
+              <span>الخدمة والضريبة:</span>
+              <strong style="color: #16a34a;">مشمولة ✓</strong>
+            </div>
+            <div class="rcp-row rcp-grand-total">
+              <span>الإجمالي المستحق:</span>
+              <strong id="drawerTotalPrice">0 ريال</strong>
+            </div>
+          </div>
+
+          <!-- الباركود الجمالي للفاتورة -->
+          <div class="receipt-barcode">
+            <div class="barcode-lines"></div>
+            <span>* VELVET-ROAST-VIP-ORDER *</span>
+          </div>
+
+          <div class="receipt-bottom-edge"></div>
+        </div>
+
+        <!-- بيانات العميل والطاولة -->
+        <div class="order-form-card">
+          <h4>📍 بيانات الاستلام</h4>
           <div class="form-group">
-            <label>طريقة الاستلام:</label>
             <select id="orderType">
               <option value="داخل الكافيه (طاولة)">🪑 داخل الكافيه (طاولة)</option>
               <option value="استلام سفري (Takeaway)">🥤 استلام سفري (Takeaway)</option>
               <option value="توصيل للمنزل">🛵 توصيل للمنزل</option>
             </select>
           </div>
-
-          <div class="form-group">
+          <div class="form-row-2">
             <input type="text" id="customerName" placeholder="الاسم الكريم">
+            <input type="text" id="customerLocation" placeholder="رقم الطاولة / العنوان">
           </div>
-
-          <div class="form-group">
-            <input type="text" id="customerLocation" placeholder="رقم الطاولة أو عنوان التوصيل">
-          </div>
-
-          <div class="form-group">
-            <input type="text" id="orderNotes" placeholder="تفضيلات التحضير (سكر وسط، حليب قليل الدسم، بدون ثلج...)">
-          </div>
+          <input type="text" id="orderNotes" placeholder="ملاحظات إضافية للباريستا...">
         </div>
+      </div>
 
-        <div class="total-row">
-          <span>الإجمالي النهائي:</span>
-          <strong id="drawerTotalPrice">0 ريال</strong>
-        </div>
-
+      <div class="drawer-footer">
         <button class="whatsapp-submit-btn" id="sendWhatsappBtn">
-          <span>📲 إرسال الطلب عبر واتساب الآن</span>
+          <span>📲 اعتماد الفاتورة وإرسالها عبر واتساب</span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- الفوتر -->
+  <!-- إشعار منبثق أنيق -->
+  <div class="toast-notify" id="toastNotify">✓ تمت إضافة الصنف إلى فاتورتك</div>
+
   <footer class="cafe-footer">
     <div class="container">
-      <p>تم التصميم والتطوير بواسطة <strong>Ammar Mofleh</strong> | أنظمة المنيو الإلكتروني للكافيهات والمطاعم</p>
+      <p>تم التصميم والتطوير بواسطة <strong>Ammar Mofleh</strong> | أنظمة المنيو التفاعلي للكافيهات والمطاعم</p>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="js/menu.js"></script>
   <script src="js/whatsapp.js"></script>
 </body>
