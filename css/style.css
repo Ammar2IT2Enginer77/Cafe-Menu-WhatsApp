@@ -1073,3 +1073,30 @@ body {
     width: 100%;
   }
 }
+/* بخار ناعم فوق صورة القهوة الساخنة في مسرح المعاينة */
+.hot-coffee-showcase {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.hot-steam {
+  position: absolute;
+  top: -26px;
+  display: flex;
+  gap: 14px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hot-steam span {
+  width: 8px;
+  height: 36px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.75), transparent 70%);
+  border-radius: 50%;
+  filter: blur(4px);
+  animation: riseSteam 2.8s infinite ease-in-out;
+}
+
+.hot-steam span:nth-child(2) { animation-delay: 0.9s; height: 44px; }
+.hot-steam span:nth-child(3) { animation-delay: 1.8s; height: 32px; }
