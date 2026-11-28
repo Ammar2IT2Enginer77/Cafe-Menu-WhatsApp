@@ -21,7 +21,7 @@ window.CAFE_CONFIG = {
   adminPassword: "714457365", // غيّر كلمة المرور قبل التسليم للعميل
 
   // إعدادات قاعدة البيانات السحابية Supabase (اتركها فارغة للتجربة المحلية في VS Code)
-   supabaseUrl: "https://wlnpcfggotkxeklugocn.supabase.co",
+   supabaseUrl: "https://wlnpcfggotkxeklugocn.supabase.co/rest/v1/",
    receiptsBucket: "receipts",
 
 
