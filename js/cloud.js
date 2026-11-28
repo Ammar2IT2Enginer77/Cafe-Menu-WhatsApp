@@ -6,7 +6,21 @@
   const CFG = window.CAFE_CONFIG || {};
   const hasCloud = Boolean(CFG.supabaseUrl && CFG.supabaseAnonKey && typeof window.supabase !== "undefined");
   const sb = hasCloud ? window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey) : null;
+  const CFG = window.CAFE_CONFIG || {};
+  const cleanUrl = (CFG.supabaseUrl || "").trim().replace(/\/+$/, "");
+  const cleanKey = (CFG.supabaseAnonKey || "").trim();
+  const hasCloud = Boolean(cleanUrl && cleanKey && typeof window.supabase !== "undefined");
+  const sb = hasCloud ? window.supabase.createClient(cleanUrl, cleanKey) : null;
 
+  function getSafeExt(file) {
+    const raw = (file && file.name ? file.name.split(".").pop() : "").replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+    if (["jpg", "jpeg", "png", "webp", "gif"].includes(raw)) return raw;
+    if (file && file.type && file.type.includes("/")) {
+      const fromType = file.type.split("/")[1].replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+      if (["jpg", "jpeg", "png", "webp", "gif"].includes(fromType)) return fromType;
+    }
+    return "jpg";
+  }
   function getLocalItems(defaults) {
     return JSON.parse(localStorage.getItem(CFG.storageKey)) || [...defaults];
   }
