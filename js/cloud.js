@@ -4,10 +4,7 @@
 
 (function () {
   const CFG = window.CAFE_CONFIG || {};
-  const hasCloud = Boolean(CFG.supabaseUrl && CFG.supabaseAnonKey && typeof window.supabase !== "undefined");
-  const sb = hasCloud ? window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey) : null;
-  const CFG = window.CAFE_CONFIG || {};
-  const cleanUrl = (CFG.supabaseUrl || "").trim().replace(/\/+$/, "");
+  const cleanUrl = (CFG.supabaseUrl || "").trim().replace(/\/rest\/v1\/?$/i, "").replace(/\/+$/, "");
   const cleanKey = (CFG.supabaseAnonKey || "").trim();
   const hasCloud = Boolean(cleanUrl && cleanKey && typeof window.supabase !== "undefined");
   const sb = hasCloud ? window.supabase.createClient(cleanUrl, cleanKey) : null;
@@ -21,6 +18,7 @@
     }
     return "jpg";
   }
+
   function getLocalItems(defaults) {
     return JSON.parse(localStorage.getItem(CFG.storageKey)) || [...defaults];
   }
@@ -147,7 +145,6 @@
       }
     },
 
-
     async uploadMenuImage(file) {
       if (!file) return { ok: false };
       if (!sb) {
@@ -158,11 +155,12 @@
         });
       }
       try {
-        const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+        const ext = getSafeExt(file);
         const filePath = `menu/item_${Date.now()}_${Math.floor(Math.random() * 1000)}.${ext}`;
-        const bucket = CFG.receiptsBucket || "receipts";
+        const bucket = (CFG.receiptsBucket || "receipts").trim();
         const { error: uploadError } = await sb.storage.from(bucket).upload(filePath, file, {
           cacheControl: "3600",
+          contentType: file.type || "image/jpeg",
           upsert: false
         });
         if (uploadError) throw uploadError;
@@ -179,11 +177,12 @@
         return { ok: true, mode: "local", url: "" };
       }
       try {
-        const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+        const ext = getSafeExt(file);
         const filePath = `receipt_${Date.now()}_${Math.floor(Math.random() * 1000)}.${ext}`;
-        const bucket = CFG.receiptsBucket || "receipts";
+        const bucket = (CFG.receiptsBucket || "receipts").trim();
         const { error: uploadError } = await sb.storage.from(bucket).upload(filePath, file, {
           cacheControl: "3600",
+          contentType: file.type || "image/jpeg",
           upsert: false
         });
         if (uploadError) throw uploadError;
